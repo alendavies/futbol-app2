@@ -4,5 +4,19 @@ export default {
     theme: {
         extend: {},
     },
-    plugins: [],
+    // eslint-disable-next-line no-undef
+    plugins: [require("daisyui")],
+    daisyui: {
+        themes: [
+            {
+                mytheme: {
+                    primary: "#21282d",
+                    secondary: "#16181b",
+                    accent: "#3c87ad",
+                    neutral: "#7f97ab",
+                    info: "#273136",
+                },
+            },
+        ],
+    },
 };
