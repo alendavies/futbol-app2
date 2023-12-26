@@ -1,8 +1,8 @@
 function Navbar() {
     return (
-        <div className="navbar bg-primary">
+        <div className="navbar bg-neutral">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl text-neutral shadow-black drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                <a className="btn btn-ghost text-xl text-primary shadow-black drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     Futbol App
                 </a>
             </div>
@@ -11,10 +11,10 @@ function Navbar() {
                     <input
                         type="text"
                         placeholder="Search"
-                        className="input input-bordered input-info text-neutral w-24 md:w-auto bg-secondary/30"
+                        className="input input-bordered text-white w-24 md:w-auto"
                     />
                 </div>
-                <button className="btn btn-ghost btn-circle text-neutral hover:bg-secondary">
+                <button className="btn btn-ghost btn-circle text-white">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"

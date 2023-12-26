@@ -12,11 +12,11 @@ function MatchCard() {
                         <p className="text-white text-xl font-semibold">
                             Premier League
                         </p>
-                        <p className="text-neutral">Jornada n°</p>
+                        <p className="text-white">Jornada n°</p>
                     </div>
                 </div>
             </div>
-            <div className="w-full h-full bg-primary rounded-md flex justify-center items-center">
+            <div className="w-full h-full card bg-base-content rounded-md flex justify-center items-center">
                 <div className="grid grid-cols-8 gap-2 p-4">
                     <div className="flex flex-col pl-2 py-2 space-y-2 col-span-1">
                         <div className="avatar placeholder">
