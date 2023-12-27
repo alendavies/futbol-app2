@@ -1,0 +1,32 @@
+export const countriesFilter = [
+    "England",
+    "Spain",
+    "Italy",
+    "Germany",
+    "France",
+    "Europe",
+    "World",
+    "USA",
+    "Argentina",
+];
+
+export const leaguesFilter = [
+    "Premier League",
+    "La Liga",
+    "Serie A",
+    "Bundesliga",
+    "Ligue 1",
+    "Champions League",
+    "Europa League",
+    "World Cup",
+    "Euro Cup",
+    "Copa America",
+    "MLS",
+    "Argentina Primera Division",
+    "Copa Argentina",
+    "CONMEBOL Libertadores",
+    "CONMEBOL Sudamericana",
+    "Copa del Rey",
+    "Primera Nacional",
+    "Supercopa Argentina",
+];
