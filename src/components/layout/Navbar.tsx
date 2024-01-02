@@ -1,3 +1,20 @@
+import NavItem from "./NavItem";
+
+const navItems = [
+    {
+        name: "Matches",
+        link: "matches",
+    },
+    {
+        name: "Teams",
+        link: "teams",
+    },
+    {
+        name: "Competitions",
+        link: "competitions",
+    },
+] as const;
+
 function Navbar() {
     return (
         <div className="navbar bg-neutral">
@@ -5,6 +22,11 @@ function Navbar() {
                 <a className="btn btn-ghost text-xl text-primary shadow-black drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     Futbol App
                 </a>
+                <ul className="flex space-x-10 pl-32 text-neutral-300">
+                    {navItems.map((item) => (
+                        <NavItem name={item.name} />
+                    ))}
+                </ul>
             </div>
             <div className="flex-none gap-2">
                 <div className="form-control">

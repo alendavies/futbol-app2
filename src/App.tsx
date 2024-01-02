@@ -1,5 +1,5 @@
 import "./App.css";
-import Layout from "./components/Layout";
+import Layout from "./components/layout/Layout";
 import Matches from "./pages/Matches/Matches";
 
 function App() {
