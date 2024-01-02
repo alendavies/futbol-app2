@@ -2,7 +2,7 @@ import { Fixture } from "api-football-beta-ts-test";
 
 function MatchCard({ fixture }: { fixture: Fixture }) {
     return (
-        <div className="flex flex-col items-start justify-center ml-8 mt-6 space-y-4 w-fit">
+        <div className="flex flex-col items-start justify-center  space-y-4 w-fit">
             <div className="w-full h-full card bg-base-content rounded-md flex justify-center items-center">
                 <div className="grid grid-cols-8 gap-2 p-4">
                     <div className="flex flex-col pl-2 py-2 space-y-2 col-span-1">
@@ -27,7 +27,17 @@ function MatchCard({ fixture }: { fixture: Fixture }) {
                     </div>
                     <div className="col-span-3 border-l-[1.5px] border-neutral border-spacing-x-7 flex flex-col justify-center items-center text-white text-sm">
                         <p className="font-bold">Hoy</p>
-                        <p>{fixture.fixture.status.long}</p>
+                        {fixture.fixture.status.long === "Finished" ? (
+                            <p>Finalizado</p>
+                        ) : fixture.fixture.status.long === "Not Started" ? (
+                            <p className="text-accent font-semibold">
+                                {new Intl.DateTimeFormat("es-ES", {}).format(
+                                    new Date(fixture.fixture.date)
+                                )}
+                            </p>
+                        ) : (
+                            <p>{fixture.fixture.status.elapsed}'</p>
+                        )}
                     </div>
                 </div>
             </div>

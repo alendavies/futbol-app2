@@ -4,78 +4,107 @@ import { Fixture } from "api-football-beta-ts-test";
 import MatchCard from "./MatchCard";
 import { countriesFilter, leaguesFilter } from "../filters";
 
-function TodayMatches() {
-    const [todayMatches, setTodayMatches] = useState<Fixture[]>([]);
-
-    const groupByLeague = (fixture: Fixture[]) => {
-        const grouped: { [key: string]: Fixture[] } = {};
-        fixture.forEach((fixture) => {
-            if (grouped[fixture.league.name]) {
-                grouped[fixture.league.name].push(fixture);
-            } else {
-                grouped[fixture.league.name] = [fixture];
-            }
-        });
-        return grouped;
+type MatchesByLeague = {
+    [key: string]: {
+        league: {
+            name: string;
+            logo: string;
+            round: string;
+        };
+        matches: Fixture[];
     };
+};
+
+const groupByLeague = (fixture: Fixture[]) => {
+    const grouped: { [key: string]: Fixture[] } = {};
+    fixture.forEach((fixture) => {
+        if (grouped[fixture.league.name]) {
+            grouped[fixture.league.name].push(fixture);
+        } else {
+            grouped[fixture.league.name] = [fixture];
+        }
+    });
+    console.log(grouped);
+    return grouped;
+};
+
+// Filtrar las ligas que pertenecen al array "leagues"
+const filterByLeague = (fixture: Fixture[]) => {
+    const filteredFixtures = fixture.filter((fixture) =>
+        leaguesFilter.includes(fixture.league.name)
+    );
+    return filteredFixtures;
+};
+
+const filterByCountry = (fixture: Fixture[]) => {
+    const filteredFixtures = fixture.filter((fixture) =>
+        countriesFilter.includes(fixture.league.country)
+    );
+    return filteredFixtures;
+};
+
+function TodayMatches() {
+    const [todayMatches, setTodayMatches] = useState<MatchesByLeague>();
 
     useEffect(() => {
         fixtureClient
             .getFixtures({
-                date: "2023-12-26",
+                date: "2024-01-02",
             })
             .then((response) => {
-                setTodayMatches(response);
+                const filteredFixturesByCountries = filterByCountry(response);
+                const filteredFixturesByLeague = filterByLeague(
+                    filteredFixturesByCountries
+                );
+                const acc = filteredFixturesByLeague.reduce((acc, fixture) => {
+                    acc[fixture.league.name]?.matches.push(fixture) ||
+                        (acc[fixture.league.name] = {
+                            league: {
+                                name: fixture.league.name,
+                                logo: fixture.league.logo,
+                                round: fixture.league.round,
+                            },
+                            matches: [fixture],
+                        });
+                    return acc;
+                }, {} as MatchesByLeague);
+                setTodayMatches(acc);
+                console.log(acc);
             });
     }, []);
 
-    const filterByCountry = (fixture: Fixture[]) => {
-        const filteredFixtures = fixture.filter((fixture) =>
-            countriesFilter.includes(fixture.league.country)
-        );
-        return filteredFixtures;
-    };
-
-    // Filtrar las ligas que pertenecen al array "leagues"
-    const filterByLeague = (fixture: Fixture[]) => {
-        const filteredFixtures = fixture.filter((fixture) =>
-            leaguesFilter.includes(fixture.league.name)
-        );
-        return filteredFixtures;
-    };
-
-    const filteredFixturesByCountries = filterByCountry(todayMatches);
-    const filteredFixturesByLeague = filterByLeague(
-        filteredFixturesByCountries
-    );
-    const groupedFixtures = groupByLeague(filteredFixturesByLeague);
+    if (!todayMatches) return <>loading...</>;
 
     return (
-        <div className="flex mt-6">
-            <div className="grid grid-cols-12">
-                {Object.values(groupedFixtures).map((league) =>
-                    league.map((fixture) => (
-                        <div className="col-span-4">
-                            <div className="flex flex-row items-center space-x-4">
+        <div>
+            {Object.entries(todayMatches).map(([_, { league, matches }]) => {
+                return (
+                    <div className="pt-6">
+                        <div className="flex flex-row items-center space-x-4">
+                            <div className="flex items-center justify-center rounded-full w-11 h-11 bg-white">
                                 <img
-                                    src={fixture.league.logo}
+                                    src={league.logo}
                                     alt="league logo"
-                                    className="w-11 h-11 rounded-full"
+                                    className="p-1 hover:border hover:border-black"
                                 />
-                                <div>
-                                    <p className="text-white text-xl font-semibold">
-                                        {fixture.league.name}
-                                    </p>
-                                    <p className="text-white">
-                                        {fixture.league.round}
-                                    </p>
-                                </div>
                             </div>
-                            <MatchCard fixture={fixture} />
+                            <div>
+                                <p className="text-white text-xl font-semibold">
+                                    {league.name}
+                                </p>
+                                <p className="text-neutral-400">
+                                    {league.round}
+                                </p>
+                            </div>
                         </div>
-                    ))
-                )}
-            </div>
+                        <div className="flex space-x-10 py-6">
+                            {matches.map((fixture) => (
+                                <MatchCard fixture={fixture} />
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 }

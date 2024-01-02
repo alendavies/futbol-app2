@@ -4,7 +4,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="bg-base w-full h-screen">
             <Navbar />
-            {children}
+            <div className="p-8">{children}</div>
         </div>
     );
 }
