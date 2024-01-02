@@ -1,11 +1,11 @@
 import "./App.css";
 import Layout from "./components/Layout";
-import TodayMatches from "./components/TodayMatches";
+import Matches from "./pages/Matches/Matches";
 
 function App() {
     return (
         <Layout>
-            <TodayMatches />
+            <Matches />
         </Layout>
     );
 }

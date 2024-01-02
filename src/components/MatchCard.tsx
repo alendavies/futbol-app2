@@ -26,17 +26,22 @@ function MatchCard({ fixture }: { fixture: Fixture }) {
                         <p>{fixture.goals.away}</p>
                     </div>
                     <div className="col-span-3 border-l-[1.5px] border-neutral border-spacing-x-7 flex flex-col justify-center items-center text-white text-sm">
-                        <p className="font-bold">Hoy</p>
-                        {fixture.fixture.status.long === "Finished" ? (
-                            <p>Finalizado</p>
+                        {fixture.fixture.status.long === "Match Finished" ? (
+                            <div className="flex flex-col items-center text-md">
+                                <p className="font-bold">Hoy</p>
+                                <p>Finalizado</p>
+                            </div>
                         ) : fixture.fixture.status.long === "Not Started" ? (
-                            <p className="text-accent font-semibold">
-                                {new Intl.DateTimeFormat("es-ES", {}).format(
-                                    new Date(fixture.fixture.date)
-                                )}
+                            <p className="font-bold text-md">
+                                {new Intl.DateTimeFormat("es-ES", {
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                }).format(new Date(fixture.fixture.date))}
                             </p>
                         ) : (
-                            <p>{fixture.fixture.status.elapsed}'</p>
+                            <p className="text-primary font-bold">
+                                {fixture.fixture.status.elapsed}'
+                            </p>
                         )}
                     </div>
                 </div>

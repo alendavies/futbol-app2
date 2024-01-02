@@ -15,19 +15,6 @@ type MatchesByLeague = {
     };
 };
 
-const groupByLeague = (fixture: Fixture[]) => {
-    const grouped: { [key: string]: Fixture[] } = {};
-    fixture.forEach((fixture) => {
-        if (grouped[fixture.league.name]) {
-            grouped[fixture.league.name].push(fixture);
-        } else {
-            grouped[fixture.league.name] = [fixture];
-        }
-    });
-    console.log(grouped);
-    return grouped;
-};
-
 // Filtrar las ligas que pertenecen al array "leagues"
 const filterByLeague = (fixture: Fixture[]) => {
     const filteredFixtures = fixture.filter((fixture) =>
