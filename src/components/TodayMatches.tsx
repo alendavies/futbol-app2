@@ -32,12 +32,16 @@ const filterByCountry = (fixture: Fixture[]) => {
 
 function TodayMatches() {
     const [todayMatches, setTodayMatches] = useState<MatchesByLeague>();
+    const fecha = new Date().toISOString().slice(0, 10);
 
     useEffect(() => {
         fixtureClient
-            .getFixtures({
-                date: "2024-01-02",
-            })
+            .getFixtures(
+                {
+                    date: fecha,
+                },
+                { ttl: 1000 * 60 * 60 * 24 }
+            )
             .then((response) => {
                 const filteredFixturesByCountries = filterByCountry(response);
                 const filteredFixturesByLeague = filterByLeague(
@@ -64,7 +68,7 @@ function TodayMatches() {
 
     return (
         <div>
-            {Object.entries(todayMatches).map(([_, { league, matches }]) => {
+            {Object.entries(todayMatches).map(([, { league, matches }]) => {
                 return (
                     <div className="pt-6">
                         <div className="flex flex-row items-center space-x-4">

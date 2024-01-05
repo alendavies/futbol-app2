@@ -1,21 +1,13 @@
+import { useState } from "react";
+import NavComp from "./NavComp";
 import NavItem from "./NavItem";
-
-const navItems = [
-    {
-        name: "Matches",
-        link: "matches",
-    },
-    {
-        name: "Teams",
-        link: "teams",
-    },
-    {
-        name: "Competitions",
-        link: "competitions",
-    },
-] as const;
+import NavTeams from "./NavTeams";
 
 function Navbar() {
+    const [currentNav, setCurrentNav] = useState<"teams" | "comps" | null>(
+        null
+    );
+
     return (
         <div className="navbar bg-neutral">
             <div className="flex-1">
@@ -23,9 +15,17 @@ function Navbar() {
                     Futbol App
                 </a>
                 <ul className="flex space-x-10 pl-32 text-neutral-300">
-                    {navItems.map((item) => (
-                        <NavItem name={item.name} />
-                    ))}
+                    <NavItem name="Matches" />
+                    <NavTeams
+                        open={currentNav === "teams"}
+                        setOpen={() => setCurrentNav("teams")}
+                        setClose={() => setCurrentNav(null)}
+                    />
+                    <NavComp
+                        open={currentNav === "comps"}
+                        setOpen={() => setCurrentNav("comps")}
+                        setClose={() => setCurrentNav(null)}
+                    />
                 </ul>
             </div>
             <div className="flex-none gap-2">
