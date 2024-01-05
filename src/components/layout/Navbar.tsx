@@ -11,7 +11,7 @@ function Navbar() {
     return (
         <div className="navbar bg-neutral">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl text-primary shadow-black drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                <a className="pl-6 font-semibold cursor-pointer text-xl text-primary shadow-black drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                     Futbol App
                 </a>
                 <ul className="flex space-x-10 pl-32 text-neutral-300">
