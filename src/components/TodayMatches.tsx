@@ -72,11 +72,11 @@ function TodayMatches() {
                 return (
                     <div className="pt-6">
                         <div className="flex flex-row items-center space-x-4">
-                            <div className="flex items-center justify-center rounded-full w-11 h-11 bg-white">
+                            <div className="flex items-center justify-center rounded-full h-11 w-11 bg-white  hover:outline-black hover:scale-105 hover:outline cursor-pointer">
                                 <img
                                     src={league.logo}
                                     alt="league logo"
-                                    className="p-1 hover:border hover:border-black"
+                                    className="p-1 h-12 w-auto"
                                 />
                             </div>
                             <div>
@@ -88,9 +88,11 @@ function TodayMatches() {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex space-x-10 py-6">
+                        <div className="grid grid-cols-12 gap-10 py-6">
                             {matches.map((fixture) => (
-                                <MatchCard fixture={fixture} />
+                                <div className="col-span-4">
+                                    <MatchCard fixture={fixture} />
+                                </div>
                             ))}
                         </div>
                     </div>
