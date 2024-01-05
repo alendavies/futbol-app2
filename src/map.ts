@@ -1,0 +1,32 @@
+export const LIGAS = {
+    LPF: 128,
+    "Primera Nacional": 129,
+    "Copa Argentina": 130,
+    "Copa de la Liga Profesional": 1032,
+    "Premier League": 39,
+    "Ligue 1": 61,
+    Bundesliga: 78,
+    "Serie A": 135,
+    "La Liga": 140,
+    "World Cup": 1,
+    "Champions League": 2,
+    "Europa League": 3,
+    MLS: 253,
+    "Copa América": 9,
+    "Copa Sudamericana": 11,
+    "Copa Libertadores": 13,
+} as const;
+
+export const EQUIPOS = {
+    "River Plate": 435,
+    "Boca Juniors": 451,
+    "San Lorenzo": 460,
+    "Racing Club": 436,
+    Lanus: 446,
+    Ferro: 470,
+    "Manchester City": 50,
+    "Manchester United": 33,
+    Argentina: 26,
+    Barcelona: 529,
+    "Inter Miami": 9568,
+} as const;
