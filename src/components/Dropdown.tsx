@@ -14,14 +14,8 @@ interface DropdownProps {
     handleClose: () => void;
 }
 
-function Dropdown({
-    items,
-    label,
-    title,
-    open,
-    handleOpen,
-    handleClose,
-}: DropdownProps) {
+function Dropdown(props: DropdownProps) {
+    const { items, label, title, open, handleOpen, handleClose } = props;
     return (
         <div>
             <div onMouseEnter={() => handleOpen()}>

@@ -72,7 +72,7 @@ function TodayMatches() {
                 return (
                     <div className="pt-6">
                         <div className="flex flex-row items-center space-x-4">
-                            <div className="flex items-center justify-center rounded-full h-11 w-11 bg-white  hover:outline-black hover:scale-105 hover:outline cursor-pointer">
+                            <div className="flex items-center justify-center rounded-full h-11 w-11 bg-white  hover:scale-110 cursor-pointer duration-500">
                                 <img
                                     src={league.logo}
                                     alt="league logo"
