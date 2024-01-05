@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type NavItemProps = {
     name: string;
@@ -8,10 +8,21 @@ type NavItemProps = {
 function NavItem(props: NavItemProps) {
     const { name, link } = props;
 
+    const currentRoute = useLocation().pathname;
+
     return (
-        <li className="hover:underline hover:underline-offset-8 hover:decoration-primary hover:decoration-2 cursor-pointer">
-            {link ? <Link to={link}>{name}</Link> : <p>{name}</p>}
-        </li>
+        <>
+            {(link && currentRoute === link) ||
+            currentRoute.includes(name.toLowerCase().replace(/s$/, "")) ? (
+                <li className="text-primary hover:underline hover:underline-offset-8 hover:decoration-primary hover:decoration-2 cursor-pointer">
+                    {link ? <Link to={link}>{name}</Link> : <p>{name}</p>}
+                </li>
+            ) : (
+                <li className="hover:underline hover:underline-offset-8 hover:decoration-primary hover:decoration-2 cursor-pointer">
+                    {link ? <Link to={link}>{name}</Link> : <p>{name}</p>}
+                </li>
+            )}
+        </>
     );
 }
 

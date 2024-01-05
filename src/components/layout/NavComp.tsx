@@ -21,6 +21,7 @@ function NavComp({
             )
         ).then(setComp);
     }, []);
+
     return (
         <>
             <Dropdown
