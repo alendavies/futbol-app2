@@ -4,6 +4,8 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Matches from "./pages/Matches/Matches";
+import TeamPage from "./pages/Team/TeamPage";
+import CompPage from "./pages/Competition/CompPage";
 
 const router = createBrowserRouter([
     {
@@ -16,9 +18,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "team/:teamId",
+                element: <TeamPage />,
             },
             {
                 path: "competition/:competitionId",
+                element: <CompPage />,
             },
         ],
     },

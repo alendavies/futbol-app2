@@ -27,7 +27,7 @@ function NavComp({
                 items={comp.map((comp) => ({
                     name: comp.league.name,
                     logo: comp.league.logo,
-                    link: comp.league.id.toString(),
+                    link: `competition/${comp.league.id.toString()}`,
                 }))}
                 label="Competitions"
                 title="Competiciones populares"

@@ -28,7 +28,7 @@ function NavTeams({
                 items={teams.map((team) => ({
                     name: team.team.name,
                     logo: team.team.logo,
-                    link: team.team.id.toString(),
+                    link: `team/${team.team.id.toString()}`,
                 }))}
                 label="Teams"
                 title="Equipos más seguidos en tu país"

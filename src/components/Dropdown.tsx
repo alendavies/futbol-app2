@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import NavItem from "./layout/NavItem";
 
 interface DropdownProps {
@@ -43,7 +44,10 @@ function Dropdown({
                     <div className="grid grid-cols-12 place-items-start">
                         {items.map((item) => {
                             return (
-                                <div className="cursor-pointer col-span-3 hover:bg-base-100 rounded-md w-full hover:w-2/3 flex items-center flex-row space-x-2 p-2">
+                                <Link
+                                    className="cursor-pointer col-span-3 hover:bg-base-100 rounded-md w-full hover:w-2/3 flex items-center flex-row space-x-2 p-2"
+                                    to={item.link}
+                                >
                                     <div className="w-6 flex items-center justify-center">
                                         <img
                                             src={item.logo}
@@ -52,7 +56,7 @@ function Dropdown({
                                     </div>
 
                                     <p className="text-sm">{item.name}</p>
-                                </div>
+                                </Link>
                             );
                         })}
                     </div>

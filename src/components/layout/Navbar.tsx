@@ -15,7 +15,7 @@ function Navbar() {
                     Futbol App
                 </a>
                 <ul className="flex space-x-10 pl-32 text-neutral-300">
-                    <NavItem name="Matches" />
+                    <NavItem name="Matches" link="/" />
                     <NavTeams
                         open={currentNav === "teams"}
                         setOpen={() => setCurrentNav("teams")}
