@@ -62,7 +62,7 @@ function TodayMatches() {
                 setTodayMatches(acc);
                 console.log(acc);
             });
-    }, []);
+    }, [fecha]);
 
     if (!todayMatches) return <>loading...</>;
 
