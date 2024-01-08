@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import { leagueClient, teamClient } from "../../api";
 import { League, Team } from "api-football-beta-ts-test";

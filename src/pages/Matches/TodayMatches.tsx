@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { fixtureClient } from "../api";
+import { fixtureClient } from "../../api";
 import { Fixture } from "api-football-beta-ts-test";
-import MatchCard from "./MatchCard";
-import { countriesFilter, leaguesFilter } from "../filters";
+import MatchCard from "../../components/MatchCard";
+import { countriesFilter, leaguesFilter } from "../../filters";
 
 type MatchesByLeague = {
     [key: string]: {
@@ -47,18 +47,21 @@ function TodayMatches() {
                 const filteredFixturesByLeague = filterByLeague(
                     filteredFixturesByCountries
                 );
-                const acc = filteredFixturesByLeague.reduce((acc, fixture) => {
-                    acc[fixture.league.name]?.matches.push(fixture) ||
-                        (acc[fixture.league.name] = {
-                            league: {
-                                name: fixture.league.name,
-                                logo: fixture.league.logo,
-                                round: fixture.league.round,
-                            },
-                            matches: [fixture],
-                        });
-                    return acc;
-                }, {} as MatchesByLeague);
+                const acc = filteredFixturesByCountries.reduce(
+                    (acc, fixture) => {
+                        acc[fixture.league.name]?.matches.push(fixture) ||
+                            (acc[fixture.league.name] = {
+                                league: {
+                                    name: fixture.league.name,
+                                    logo: fixture.league.logo,
+                                    round: fixture.league.round,
+                                },
+                                matches: [fixture],
+                            });
+                        return acc;
+                    },
+                    {} as MatchesByLeague
+                );
                 setTodayMatches(acc);
                 console.log(acc);
             });
@@ -72,11 +75,11 @@ function TodayMatches() {
                 return (
                     <div className="pt-6">
                         <div className="flex flex-row items-center space-x-4">
-                            <div className="flex items-center justify-center rounded-full h-11 w-11 bg-white  hover:scale-110 cursor-pointer duration-500">
+                            <div className="flex items-center justify-center rounded-full h-14 w-14 bg-white  hover:scale-110 cursor-pointer duration-500">
                                 <img
                                     src={league.logo}
                                     alt="league logo"
-                                    className="p-1 h-12 w-auto"
+                                    className="p-1 h-auto w-12 rounded-full"
                                 />
                             </div>
                             <div>

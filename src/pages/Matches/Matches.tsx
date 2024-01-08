@@ -1,4 +1,4 @@
-import TodayMatches from "../../components/TodayMatches";
+import TodayMatches from "./TodayMatches";
 
 function Matches() {
     return (
