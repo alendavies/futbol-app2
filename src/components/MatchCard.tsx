@@ -1,15 +1,41 @@
 import { Fixture } from "api-football-beta-ts-test";
 import { PiWarning, PiWarningCircle } from "react-icons/pi";
 
-const formatDate = (date: string) => {
+const formatTime = (date: string) => {
     return new Intl.DateTimeFormat("es-ES", {
         hour: "numeric",
         minute: "numeric",
     }).format(new Date(date));
 };
 
+const formatDate = (date: string) => {
+    return new Intl.DateTimeFormat("es-ES", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+    }).format(new Date(date));
+};
+
+const today = formatDate(new Date().toISOString());
+
 const matchStatus = (status: string, date: string, time: number) => {
-    if (status === "Match Finished") {
+    if (formatDate(date) != today) {
+        if (status === "Match Finished") {
+            return (
+                <>
+                    <p className="font-bold text-md">{formatDate(date)}</p>
+                    <p className="font-bold text-md">Finalizado</p>
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <p className="font-bold text-md">{formatDate(date)}</p>
+                    <p className="font-bold text-md">{formatTime(date)}</p>
+                </>
+            );
+        }
+    } else if (status === "Match Finished") {
         return (
             <>
                 <p className="font-bold">Hoy</p>
@@ -17,7 +43,7 @@ const matchStatus = (status: string, date: string, time: number) => {
             </>
         );
     } else if (status === "Not Started") {
-        return <p className="font-bold text-md">{formatDate(date)}</p>;
+        return <p className="font-bold text-md">{formatTime(date)}</p>;
     } else if (status === "Match Postponed") {
         return (
             <>

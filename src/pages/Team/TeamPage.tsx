@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
-import { leagueClient, teamClient } from "../../api";
-import { League, Team } from "api-football-beta-ts-test";
-import { useEffect, useState } from "react";
+import { fixtureClient, leagueClient, teamClient } from "../../api";
+import { Fixture, League, Team } from "api-football-beta-ts-test";
+import { useCallback, useEffect, useState } from "react";
 import MatchCard from "../../components/MatchCard";
 import Select from "../../components/Select";
 
@@ -11,6 +11,40 @@ function TeamPage() {
 
     const { teamId } = useParams();
     const [leagues, setLeagues] = useState<League[]>();
+    const [lastMatch, setLastMatch] = useState<Fixture>();
+    const [nextMatch, setNextMatch] = useState<Fixture>();
+
+    const getMatch = (type: "next" | "last"): void => {
+        fixtureClient
+            .getFixtures(
+                { team: Number(teamId), season: 2023 },
+                { ttl: 1000 * 60 * 60 * 24 }
+            )
+            .then((res) => {
+                console.log("res: ", res);
+                const sorted = res.sort(
+                    (a, b) =>
+                        Date.parse(a.fixture.date) - Date.parse(b.fixture.date)
+                );
+                console.log("sorted: ", sorted);
+                if (type === "next") {
+                    const nextMatches = sorted.filter(
+                        (match) => match.fixture.status.long === "Not Started"
+                    );
+                    console.log("next: ", nextMatches);
+                    setNextMatch(nextMatches[0]);
+                } else {
+                    const lastMatches = sorted.filter(
+                        (match) =>
+                            match.fixture.status.long === "Match Finished"
+                    );
+                    console.log("last: ", lastMatches);
+                    setLastMatch(lastMatches[lastMatches.length - 1]);
+                }
+            });
+    };
+
+    const getMatchCache = useCallback(getMatch, [teamId]);
 
     useEffect(() => {
         teamClient
@@ -19,12 +53,15 @@ function TeamPage() {
         leagueClient
             .getLeagues({ team: Number(teamId) }, { ttl: 1000 * 60 * 60 * 24 })
             .then((res) => setLeagues(res));
-    }, [teamId]);
+
+        getMatchCache("next");
+        getMatchCache("last");
+    }, [teamId, getMatchCache]);
 
     return (
         <>
             {team && (
-                <div className="space-y-16">
+                <div className="space-y-14">
                     <Header
                         name={team.team.name}
                         logo={team.team.logo}
@@ -36,76 +73,15 @@ function TeamPage() {
                                 Último resultado
                             </p>
                             <div className="cursor-pointer space-y-1">
-                                <MatchCard
-                                    fixture={{
-                                        fixture: {
-                                            id: 0,
-                                            referee: "",
-                                            timezone: "",
-                                            date: "",
-                                            timestamp: 0,
-                                            periods: {
-                                                first: 0,
-                                                second: 0,
-                                            },
-                                            venue: {
-                                                id: 0,
-                                                name: "",
-                                                city: "",
-                                            },
-                                            status: {
-                                                long: "",
-                                                short: "",
-                                                elapsed: 0,
-                                            },
-                                        },
-                                        league: {
-                                            id: 0,
-                                            name: "",
-                                            country: "",
-                                            logo: "",
-                                            flag: "",
-                                            season: 0,
-                                            round: "",
-                                        },
-                                        teams: {
-                                            home: {
-                                                id: 0,
-                                                name: "",
-                                                logo: "",
-                                            },
-                                            away: {
-                                                id: 0,
-                                                name: "",
-                                                logo: "",
-                                            },
-                                        },
-                                        goals: {
-                                            home: 0,
-                                            away: 0,
-                                        },
-                                        score: {
-                                            halftime: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                            fulltime: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                            extratime: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                            penalty: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                        },
-                                    }}
-                                />
+                                {lastMatch && <MatchCard fixture={lastMatch} />}
                                 <div className="bg-base-content rounded-md text-white p-2">
-                                    logo liga
+                                    <div className="flex space-x-2 text-xs items-center">
+                                        <img
+                                            src={lastMatch?.league.logo}
+                                            className="w-5 h-5"
+                                        />
+                                        <p>{lastMatch?.league.name}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -114,76 +90,15 @@ function TeamPage() {
                                 Siguiente partido
                             </p>
                             <div className="space-y-1 cursor-pointer">
-                                <MatchCard
-                                    fixture={{
-                                        fixture: {
-                                            id: 0,
-                                            referee: "",
-                                            timezone: "",
-                                            date: "",
-                                            timestamp: 0,
-                                            periods: {
-                                                first: 0,
-                                                second: 0,
-                                            },
-                                            venue: {
-                                                id: 0,
-                                                name: "",
-                                                city: "",
-                                            },
-                                            status: {
-                                                long: "",
-                                                short: "",
-                                                elapsed: 0,
-                                            },
-                                        },
-                                        league: {
-                                            id: 0,
-                                            name: "",
-                                            country: "",
-                                            logo: "",
-                                            flag: "",
-                                            season: 0,
-                                            round: "",
-                                        },
-                                        teams: {
-                                            home: {
-                                                id: 0,
-                                                name: "",
-                                                logo: "",
-                                            },
-                                            away: {
-                                                id: 0,
-                                                name: "",
-                                                logo: "",
-                                            },
-                                        },
-                                        goals: {
-                                            home: 0,
-                                            away: 0,
-                                        },
-                                        score: {
-                                            halftime: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                            fulltime: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                            extratime: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                            penalty: {
-                                                home: 0,
-                                                away: 0,
-                                            },
-                                        },
-                                    }}
-                                />
+                                {nextMatch && <MatchCard fixture={nextMatch} />}
                                 <div className="bg-base-content rounded-md text-white p-2">
-                                    logo liga
+                                    <div className="flex space-x-2 text-xs items-center">
+                                        <img
+                                            src={nextMatch?.league.logo}
+                                            className="w-5 h-5"
+                                        />
+                                        <p>{nextMatch?.league.name}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,11 +107,13 @@ function TeamPage() {
                         <p className="text-white font-bold text-xl">
                             Clasificaciones
                         </p>
-                        {/* <Select
-                            options={leagues?.map(
-                                (league) => league.league.name
-                            )}
-                        /> */}
+                        {leagues && (
+                            <Select
+                                options={leagues.map(
+                                    (league) => league.league.name
+                                )}
+                            />
+                        )}
                     </div>
                 </div>
             )}
