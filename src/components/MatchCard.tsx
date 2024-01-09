@@ -10,7 +10,7 @@ const formatTime = (date: string) => {
 
 const formatDate = (date: string) => {
     return new Intl.DateTimeFormat("es-ES", {
-        year: "numeric",
+        year: "2-digit",
         month: "numeric",
         day: "numeric",
     }).format(new Date(date));

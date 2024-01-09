@@ -5,6 +5,7 @@ import { Fixture, League, Team } from "api-football-beta-ts-test";
 import { useCallback, useEffect, useState } from "react";
 import MatchCard from "../../components/MatchCard";
 import Select from "../../components/Select";
+import LastResults from "./LastResults";
 
 function TeamPage() {
     const [team, setTeam] = useState<Team>();
@@ -13,6 +14,7 @@ function TeamPage() {
     const [leagues, setLeagues] = useState<League[]>();
     const [lastMatch, setLastMatch] = useState<Fixture>();
     const [nextMatch, setNextMatch] = useState<Fixture>();
+    const [lastResults, setLastResults] = useState<Fixture[]>();
 
     const getMatch = (type: "next" | "last"): void => {
         fixtureClient
@@ -21,25 +23,27 @@ function TeamPage() {
                 { ttl: 1000 * 60 * 60 * 24 }
             )
             .then((res) => {
-                console.log("res: ", res);
                 const sorted = res.sort(
                     (a, b) =>
                         Date.parse(a.fixture.date) - Date.parse(b.fixture.date)
                 );
-                console.log("sorted: ", sorted);
                 if (type === "next") {
                     const nextMatches = sorted.filter(
                         (match) => match.fixture.status.long === "Not Started"
                     );
-                    console.log("next: ", nextMatches);
                     setNextMatch(nextMatches[0]);
                 } else {
                     const lastMatches = sorted.filter(
                         (match) =>
                             match.fixture.status.long === "Match Finished"
                     );
-                    console.log("last: ", lastMatches);
                     setLastMatch(lastMatches[lastMatches.length - 1]);
+                    setLastResults(
+                        lastMatches.slice(
+                            lastMatches.length - 3,
+                            lastMatches.length
+                        )
+                    );
                 }
             });
     };
@@ -61,7 +65,7 @@ function TeamPage() {
     return (
         <>
             {team && (
-                <div className="space-y-14">
+                <div className="space-y-12">
                     <Header
                         name={team.team.name}
                         logo={team.team.logo}
@@ -114,6 +118,22 @@ function TeamPage() {
                                 )}
                             />
                         )}
+                    </div>
+                    <div className="space-y-4">
+                        <p className="text-white font-bold text-xl">
+                            Últimos partidos
+                        </p>
+                        <div className="flex flex-row space-x-4">
+                            {lastResults?.map((match) => (
+                                <LastResults
+                                    homeLogo={match.teams.home.logo}
+                                    awayLogo={match.teams.away.logo}
+                                    homeScore={match.goals.home}
+                                    awayScore={match.goals.away}
+                                    date={match.fixture.date}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}

@@ -47,21 +47,18 @@ function TodayMatches() {
                 const filteredFixturesByLeague = filterByLeague(
                     filteredFixturesByCountries
                 );
-                const acc = filteredFixturesByCountries.reduce(
-                    (acc, fixture) => {
-                        acc[fixture.league.name]?.matches.push(fixture) ||
-                            (acc[fixture.league.name] = {
-                                league: {
-                                    name: fixture.league.name,
-                                    logo: fixture.league.logo,
-                                    round: fixture.league.round,
-                                },
-                                matches: [fixture],
-                            });
-                        return acc;
-                    },
-                    {} as MatchesByLeague
-                );
+                const acc = filteredFixturesByLeague.reduce((acc, fixture) => {
+                    acc[fixture.league.name]?.matches.push(fixture) ||
+                        (acc[fixture.league.name] = {
+                            league: {
+                                name: fixture.league.name,
+                                logo: fixture.league.logo,
+                                round: fixture.league.round,
+                            },
+                            matches: [fixture],
+                        });
+                    return acc;
+                }, {} as MatchesByLeague);
                 setTodayMatches(acc);
                 console.log(acc);
             });
