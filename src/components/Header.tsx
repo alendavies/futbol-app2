@@ -17,7 +17,7 @@ function Header({
                     <img
                         src={logo}
                         alt={name}
-                        className="w-[120px] h-[120px]"
+                        className="w-[120px] h-[120px] "
                     />
                     <p className="font-bold text-7xl text-white">
                         {name.toUpperCase()}

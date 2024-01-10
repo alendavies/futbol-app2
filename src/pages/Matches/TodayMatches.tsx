@@ -15,7 +15,6 @@ type MatchesByLeague = {
     };
 };
 
-// Filtrar las ligas que pertenecen al array "leagues"
 const filterByLeague = (fixture: Fixture[]) => {
     const filteredFixtures = fixture.filter((fixture) =>
         leaguesFilter.includes(fixture.league.name)
@@ -84,7 +83,10 @@ function TodayMatches() {
                                     {league.name}
                                 </p>
                                 <p className="text-neutral-400">
-                                    {league.round}
+                                    {league.round.replace(
+                                        "Regular Season -",
+                                        "Jornada"
+                                    )}
                                 </p>
                             </div>
                         </div>

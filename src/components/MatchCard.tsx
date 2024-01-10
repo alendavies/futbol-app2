@@ -11,8 +11,8 @@ const formatTime = (date: string) => {
 const formatDate = (date: string) => {
     return new Intl.DateTimeFormat("es-ES", {
         year: "2-digit",
-        month: "numeric",
-        day: "numeric",
+        month: "2-digit",
+        day: "2-digit",
     }).format(new Date(date));
 };
 

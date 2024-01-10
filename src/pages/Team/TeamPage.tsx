@@ -16,17 +16,23 @@ function TeamPage() {
     const [nextMatch, setNextMatch] = useState<Fixture>();
     const [lastResults, setLastResults] = useState<Fixture[]>();
 
+    function getFixtures(season: number) {
+        return fixtureClient.getFixtures(
+            { team: Number(teamId), season: season },
+            { ttl: 1000 * 60 * 60 * 24 }
+        );
+    }
+    const getFixturesCache = useCallback(getFixtures, [teamId]);
+
     const getMatch = (type: "next" | "last"): void => {
-        fixtureClient
-            .getFixtures(
-                { team: Number(teamId), season: 2023 },
-                { ttl: 1000 * 60 * 60 * 24 }
-            )
+        Promise.all([getFixturesCache(2023), getFixturesCache(2024)])
+            .then((res) => [...res[0], ...res[1]])
             .then((res) => {
                 const sorted = res.sort(
                     (a, b) =>
                         Date.parse(a.fixture.date) - Date.parse(b.fixture.date)
                 );
+                console.log(sorted);
                 if (type === "next") {
                     const nextMatches = sorted.filter(
                         (match) => match.fixture.status.long === "Not Started"
@@ -39,16 +45,15 @@ function TeamPage() {
                     );
                     setLastMatch(lastMatches[lastMatches.length - 1]);
                     setLastResults(
-                        lastMatches.slice(
-                            lastMatches.length - 3,
-                            lastMatches.length
-                        )
+                        lastMatches
+                            .slice(lastMatches.length - 3, lastMatches.length)
+                            .reverse()
                     );
                 }
             });
     };
 
-    const getMatchCache = useCallback(getMatch, [teamId]);
+    const getMatchCache = useCallback(getMatch, [getFixturesCache]);
 
     useEffect(() => {
         teamClient

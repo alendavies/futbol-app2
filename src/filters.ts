@@ -11,6 +11,9 @@ export const countriesFilter = [
 ];
 
 export const leaguesFilter = [
+    "Liga Profesional Argentina",
+    "Copa de la Liga Profesional",
+    "Copa Argentina",
     "Premier League",
     "La Liga",
     "Serie A",
@@ -23,7 +26,6 @@ export const leaguesFilter = [
     "Copa America",
     "MLS",
     "Argentina Primera Division",
-    "Copa Argentina",
     "CONMEBOL Libertadores",
     "CONMEBOL Sudamericana",
     "Copa del Rey",

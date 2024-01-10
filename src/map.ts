@@ -3,6 +3,7 @@ export const LIGAS = {
     "Primera Nacional": 129,
     "Copa Argentina": 130,
     "Copa de la Liga Profesional": 1032,
+    "Liga Profesional Argentina": 128,
     "Premier League": 39,
     "Ligue 1": 61,
     Bundesliga: 78,
